@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # RT (Roundtable) – backend + frontend. Run from repo root: ./start.sh
-# Local ports: backend 5001, web 4203.
+# Local ports: backend 5001, web 4201.
 set -e
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_ROOT"
 
 API_PORT=5001
-WEB_PORT=4203
+WEB_PORT=4201
 
 free_port_unix() {
   local port="$1"

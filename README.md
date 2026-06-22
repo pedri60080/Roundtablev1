@@ -12,7 +12,7 @@ This repo is a **dev-only clickable demo** and uses **simplified auth** (hardcod
 
 - **Backend**: ASP.NET Core Web API (.NET 10), Clean Architecture with four projects. REST over JSON, camelCase. SQLite + EF Core for persistence.
 - **Frontend**: Angular (standalone components, lazy-loaded routes). Angular Material. Proxies `/api/**` to the backend in development.
-- **Run**: From the repo root, **`./start.sh`** starts the backend on `http://127.0.0.1:5001` and the frontend on `http://localhost:4203` (works in Git Bash on Windows; uses `netstat`/`taskkill` when `lsof` is not available).
+- **Run**: From the repo root, **`./start.sh`** starts the backend on `http://127.0.0.1:5001` and the frontend on `http://localhost:4201` (works in Git Bash on Windows; uses `netstat`/`taskkill` when `lsof` is not available).
 
 ### Docker (NAS)
 
@@ -93,7 +93,7 @@ The .NET solution (`Roundtable.sln`) contains four projects. Dependency directio
 - **Stack**: Angular, standalone components, Angular Material, RxJS.
 - **Routes**: Default `''` → `HomeComponent`; `team/:teamId` → `TeamComponent`; `team/:teamId/settings` → team settings page; wildcard redirects to `''`.
 - **API**: In development, `proxy.conf.js` forwards `/api/**` to `http://localhost:5001`. Frontend uses relative `/api/...` URLs.
-- **Port**: 4203 when started via `npm start -- --port 4203` (e.g. from `start.sh`).
+- **Port**: 4201 when started via `npm start -- --port 4201` (e.g. from `start.sh`).
 
 ### Key UX features
 - **User onboarding** on first run (`user123` has no display name/org in seed): asks for display name + organisation (from the `Organisations` table).
@@ -116,19 +116,19 @@ From the repository root:
 ./start.sh
 ```
 
-This frees ports 4203 and 5001 if in use, then starts:
+This frees ports 4201 and 5001 if in use, then starts:
 
 1. Backend: `src/Roundtable.Backend` — `dotnet run`
-2. Frontend: `src/Roundtable.Frontend` — `npm start -- --port 4203`
+2. Frontend: `src/Roundtable.Frontend` — `npm start -- --port 4201`
 
 - Backend: http://127.0.0.1:5001  
-- Frontend: http://localhost:4203  
+- Frontend: http://localhost:4201  
 - Swagger: http://127.0.0.1:5001/swagger  
 
 **Manual run:**
 
 - Backend: `cd src/Roundtable.Backend && dotnet run`
-- Frontend: `cd src/Roundtable.Frontend && npm install && npm start -- --port 4203`
+- Frontend: `cd src/Roundtable.Frontend && npm install && npm start -- --port 4201`
 
 ---
 
