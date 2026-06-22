@@ -1,0 +1,58 @@
+{
+  "appDisplayName": "ROURRR",
+  "includingMinutes": true,
+  "organisationNames": [
+    "Sjimmie",
+    "Warner Bros. Pictures",
+    "Universal Pictures",
+    "Pixar Animation Studios",
+    "Sony Pictures",
+    "Nintendoassd",
+    "Electronic Arts",
+    "Ubisoft",
+    "Activision Blizzard",
+    "Square Enix"
+  ],
+  "teams": [
+    {
+      "id": "team001",
+      "name": "Ingloaa"
+    },
+    {
+      "id": "team002",
+      "name": "The Dirty Dozen"
+    },
+    {
+      "id": "team003",
+      "name": "The Daltons"
+    },
+    {
+      "id": "team004",
+      "name": "The Magnificent Seven"
+    },
+    {
+      "id": "team005",
+      "name": "The A-Team"
+    },
+    {
+      "id": "team006",
+      "name": "Ocean\u0027s Eleven"
+    },
+    {
+      "id": "team007",
+      "name": "The Expendables"
+    },
+    {
+      "id": "team008",
+      "name": "The Losers"
+    },
+    {
+      "id": "team009",
+      "name": "Suicide Squad"
+    },
+    {
+      "id": "team010",
+      "name": "The League of Extraordinary Gentlemen"
+    }
+  ]
+}

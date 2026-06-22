@@ -1,0 +1,120 @@
+@import url("@fontsource-variable/dm-sans/index.css");
+@import url("material-symbols/outlined.css");
+
+/* Material 3 design system tokens */
+:root {
+  /* Primary (from theme or M3 blue) */
+  --app-primary: var(--mat-sys-primary, #1976d2);
+  --app-on-primary: var(--mat-sys-on-primary, #fff);
+  --m3-primary-container: var(--mat-sys-primary-container, #d6e3ff);
+  --m3-on-primary-container: var(--mat-sys-on-primary-container, #001b3d);
+
+  /* Surfaces (M3 surface tiers) */
+  --m3-surface: var(--mat-sys-surface, #fef7ff);
+  --m3-surface-dim: var(--mat-sys-surface-dim, #ded8e1);
+  --m3-surface-bright: var(--mat-sys-surface-bright, #fef7ff);
+  --m3-surface-container-lowest: var(--mat-sys-surface-container-lowest, #ffffff);
+  --m3-surface-container-low: var(--mat-sys-surface-container-low, #f7f2fa);
+  --m3-surface-container: var(--mat-sys-surface-container, #f0ebf4);
+  --m3-surface-container-high: var(--mat-sys-surface-container-high, #eae6ee);
+  --m3-surface-container-highest: var(--mat-sys-surface-container-highest, #e4e0e9);
+
+  /* On-surface */
+  --m3-on-surface: var(--mat-sys-on-surface, #1c1b1f);
+  --m3-on-surface-variant: var(--mat-sys-on-surface-variant, #49454f);
+  --m3-outline: var(--mat-sys-outline, rgba(28, 27, 31, 0.38));
+  --m3-outline-variant: var(--mat-sys-outline-variant, rgba(28, 27, 31, 0.12));
+
+  /* Error */
+  --m3-error: var(--mat-sys-error, #ba1a1a);
+  --m3-on-error: var(--mat-sys-on-error, #fff);
+  --m3-error-container: var(--mat-sys-error-container, #ffdad6);
+  --m3-on-error-container: var(--mat-sys-on-error-container, #410002);
+
+  /* Tertiary (for filter / secondary actions) */
+  --m3-tertiary: var(--mat-sys-tertiary, #7d5260);
+  --m3-tertiary-container: var(--mat-sys-tertiary-container, #ffd8e4);
+  --m3-on-tertiary-container: var(--mat-sys-on-tertiary-container, #31111d);
+
+  /* Shape (M3 corner radii) */
+  --m3-shape-extra-small: 4px;
+  --m3-shape-small: 8px;
+  --m3-shape-medium: 12px;
+  --m3-shape-large: 16px;
+  --m3-shape-extra-large: 28px;
+  --m3-shape-full: 9999px;
+
+  /* Elevation (M3 shadow levels) */
+  --m3-elevation-0: none;
+  --m3-elevation-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15);
+  --m3-elevation-2: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --m3-elevation-3: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --m3-elevation-4: 0 6px 10px 4px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.3);
+  --m3-elevation-5: 0 8px 12px 6px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.3);
+
+  /* State layers (for hover/pressed) */
+  --m3-hover-opacity: 0.08;
+  --m3-focus-opacity: 0.12;
+  --m3-pressed-opacity: 0.12;
+}
+
+html {
+  font-size: 16px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', 'Roboto', system-ui, sans-serif;
+  background: var(--m3-surface-container-low);
+  color: var(--m3-on-surface);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  letter-spacing: 0.25px;
+}
+
+/* M3 typography scale (optional overrides) */
+h1, .m3-headline-large {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+h2, .m3-headline-medium {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.25;
+}
+h3, .m3-title-large {
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.27;
+}
+.m3-title-medium {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+}
+.m3-body-large {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+.m3-body-medium {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
+}
+.m3-label-large {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+}
