@@ -1,0 +1,7 @@
+src/Roundtable.Frontend
+src/Roundtable.Backend
+src/Roundtable.Application
+src/Roundtable.Domain
+src/Roundtable.Infrastructure
+Roundtable.sln
+Docker

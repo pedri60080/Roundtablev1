@@ -8,9 +8,18 @@ using Roundtable.Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IDemoSeedDataFilePath>(_ =>
-    new DemoSeedDataFilePath(
-        Path.Combine(builder.Environment.ContentRootPath, "App_Data", "DemoSeedData.json")));
+var seedPath = builder.Configuration["DemoSeedData:FilePath"]
+    ?? Path.Combine(builder.Environment.ContentRootPath, "App_Data", "DemoSeedData.json");
+if (!builder.Environment.IsDevelopment())
+{
+    var dataDir = Path.GetDirectoryName(seedPath);
+    if (!string.IsNullOrEmpty(dataDir))
+    {
+        Directory.CreateDirectory(dataDir);
+    }
+}
+
+builder.Services.AddSingleton<IDemoSeedDataFilePath>(_ => new DemoSeedDataFilePath(seedPath));
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -68,11 +77,25 @@ await using (var scope = app.Services.CreateAsyncScope())
     }
 }
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
+{
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+}
+
 app.UseCors();
 app.MapControllers();
 
 app.MapGet("/api/config", () => Results.Ok(new { isDevelopment = app.Environment.IsDevelopment() }));
+
+if (!app.Environment.IsDevelopment())
+{
+    app.MapFallbackToFile("index.html");
+}
 
 app.Run();
