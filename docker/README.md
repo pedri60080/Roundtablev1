@@ -1,1 +1,1 @@
-# Roundtable v1 Docker plugin — see prototypes-portal/deploy/README.md
+# Roundtable v1 Docker plugin — see concepts/deploy/README.md

@@ -2,5 +2,5 @@
 set -euo pipefail
 REPO_ROOT="${REPO_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 # shellcheck source=/dev/null
-source "$REPO_ROOT/../prototypes-portal/deploy/lib/docker-plugin-common.sh"
+source "$REPO_ROOT/../concepts/deploy/lib/docker-plugin-common.sh"
 compute_hash_from_sources "$REPO_ROOT/Docker/hash-sources.txt" "$REPO_ROOT"
