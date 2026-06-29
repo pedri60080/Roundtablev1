@@ -1,5 +1,6 @@
 import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 
 export type DemoSettingsDto = {
@@ -13,6 +14,7 @@ export type DemoSettingsDto = {
 @Injectable({ providedIn: 'root' })
 export class DemoVersionSettingsService {
   private readonly http = inject(HttpClient);
+  private readonly title = inject(Title);
 
   /**
    * Demo toggle: when disabled, we hide/skip Minutes UI so the app can be demoed
@@ -21,7 +23,7 @@ export class DemoVersionSettingsService {
   readonly includingMinutes: WritableSignal<boolean> = signal(false);
 
   /** Shown on the home page brand heading. */
-  readonly appDisplayName = signal('Roundtable');
+  readonly appDisplayName = signal('Roundtable v1');
 
   loadFromServer(): Promise<void> {
     return firstValueFrom(this.http.get<DemoSettingsDto>('/api/demo-settings')).then(
@@ -32,6 +34,7 @@ export class DemoVersionSettingsService {
 
   applyDto(d: DemoSettingsDto): void {
     this.appDisplayName.set(d.appDisplayName);
+    this.title.setTitle(d.appDisplayName);
     this.includingMinutes.set(d.includingMinutes);
   }
 }

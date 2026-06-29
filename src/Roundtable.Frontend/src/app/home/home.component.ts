@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import type { Team } from '../teams';
 import { DemoVersionSettingsService } from '../demo-version-settings.service';
+import { resolveUnderAppBase } from '../core/app-base-url';
 
 type Me = {
   guid: string;
@@ -133,7 +134,7 @@ type OrganisationDto = { id: number; name: string };
                     (click)="onTeamClick(team)"
                   >
                     @if (isImageIcon(team.icon)) {
-                      <img [src]="team.icon" [alt]="team.name + ' icon'" class="tile-icon tile-icon--image" />
+                      <img [src]="teamIconSrc(team.icon)" [alt]="team.name + ' icon'" class="tile-icon tile-icon--image" />
                     } @else {
                       <span class="material-symbols-outlined tile-icon" aria-hidden="true">{{ team.icon }}</span>
                     }
@@ -163,7 +164,7 @@ type OrganisationDto = { id: number; name: string };
                     (click)="team.access !== 'MembersOnlyNoAccess' && onTeamClick(team)"
                   >
                     @if (isImageIcon(team.icon)) {
-                      <img [src]="team.icon" [alt]="team.name + ' icon'" class="tile-icon tile-icon--image" />
+                      <img [src]="teamIconSrc(team.icon)" [alt]="team.name + ' icon'" class="tile-icon tile-icon--image" />
                     } @else {
                       <span class="material-symbols-outlined tile-icon" aria-hidden="true">{{ team.icon }}</span>
                     }
@@ -618,6 +619,10 @@ export class HomeComponent implements OnInit {
 
   isImageIcon(icon: string): boolean {
     return icon.includes('/');
+  }
+
+  teamIconSrc(icon: string): string {
+    return this.isImageIcon(icon) ? resolveUnderAppBase(icon) : icon;
   }
 
   nextOnboarding(): void {

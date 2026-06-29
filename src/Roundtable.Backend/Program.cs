@@ -10,14 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var seedPath = builder.Configuration["DemoSeedData:FilePath"]
     ?? Path.Combine(builder.Environment.ContentRootPath, "App_Data", "DemoSeedData.json");
-if (!builder.Environment.IsDevelopment())
-{
-    var dataDir = Path.GetDirectoryName(seedPath);
-    if (!string.IsNullOrEmpty(dataDir))
-    {
-        Directory.CreateDirectory(dataDir);
-    }
-}
+BootstrapDataDirectory(seedPath, builder.Environment.ContentRootPath);
 
 builder.Services.AddSingleton<IDemoSeedDataFilePath>(_ => new DemoSeedDataFilePath(seedPath));
 
@@ -54,8 +47,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// SQLite: create tables when the file is new. If the file exists but has no tables,
-// EnsureCreated does nothing—then recreate the file, create schema, and seed.
 await using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -64,15 +55,17 @@ await using (var scope = app.Services.CreateAsyncScope())
 
     await db.Database.EnsureCreatedAsync();
 
-    try
+    if (!await IsDatabaseSchemaValidAsync(db))
     {
-        await db.Users.AsNoTracking().AnyAsync();
-    }
-    catch (SqliteException ex) when (ex.Message.Contains("no such table", StringComparison.OrdinalIgnoreCase))
-    {
-        logger.LogWarning(ex, "SQLite database had no tables; recreating and seeding.");
+        logger.LogWarning("Database schema is missing or outdated; recreating and seeding.");
         await db.Database.EnsureDeletedAsync();
         await db.Database.EnsureCreatedAsync();
+        db.ChangeTracker.Clear();
+        await seed.RunAsync();
+    }
+    else if (!await db.Users.AnyAsync())
+    {
+        logger.LogInformation("Empty database detected; running initial seed.");
         await seed.RunAsync();
     }
 }
@@ -99,3 +92,39 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.Run();
+
+static async Task<bool> IsDatabaseSchemaValidAsync(AppDbContext db)
+{
+    try
+    {
+        await db.Teams.AsNoTracking().Take(1).ToListAsync();
+        await db.Users.AsNoTracking().Take(1).ToListAsync();
+        await db.Meetings.AsNoTracking().AnyAsync();
+        await db.MeetingTopics.AsNoTracking().Take(1).ToListAsync();
+        await db.TopicMinuteNotes.AsNoTracking().Take(1).ToListAsync();
+        return true;
+    }
+    catch (SqliteException ex) when (
+        ex.Message.Contains("no such table", StringComparison.OrdinalIgnoreCase) ||
+        ex.Message.Contains("no such column", StringComparison.OrdinalIgnoreCase))
+    {
+        return false;
+    }
+}
+
+static void BootstrapDataDirectory(string seedPath, string contentRootPath)
+{
+    var dataDir = Path.GetDirectoryName(seedPath);
+    if (string.IsNullOrEmpty(dataDir))
+        return;
+
+    Directory.CreateDirectory(dataDir);
+    Directory.CreateDirectory(Path.Combine(dataDir, "demo-team-icons"));
+
+    if (File.Exists(seedPath))
+        return;
+
+    var bundledSeed = Path.Combine(contentRootPath, "App_Data", "DemoSeedData.json");
+    if (File.Exists(bundledSeed))
+        File.Copy(bundledSeed, seedPath);
+}

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { finalize, firstValueFrom, map, of } from 'rxjs';
 import type { Team } from '../teams';
 import { DemoVersionSettingsService } from '../demo-version-settings.service';
+import { resolveUnderAppBase } from '../core/app-base-url';
 import { TopicCardComponent } from '../components/topic-card/topic-card.component';
 import { TopicMinuteNotesCardComponent } from '../components/topic-card/topic-minute-notes-card.component';
 import type { MeetingTopicDto, TopicWithMeetingDto } from '../components/topic-card/meeting-topic.model';
@@ -40,7 +41,7 @@ type RightPanel = 'none' | 'new' | { type: 'meeting'; meeting: MeetingDto };
           </div>
           <div class="team-title-row">
             @if (isImageIcon(team.icon)) {
-              <img [src]="team.icon" [alt]="team.name + ' icon'" class="team-icon team-icon--image" />
+              <img [src]="teamIconSrc(team.icon)" [alt]="team.name + ' icon'" class="team-icon team-icon--image" />
             } @else {
               <span class="team-icon material-symbols-outlined" aria-hidden="true">{{ team.icon }}</span>
             }
@@ -2411,5 +2412,9 @@ export class TeamComponent implements OnInit, OnDestroy {
 
   isImageIcon(icon: string): boolean {
     return icon.includes('/');
+  }
+
+  teamIconSrc(icon: string): string {
+    return this.isImageIcon(icon) ? resolveUnderAppBase(icon) : icon;
   }
 }

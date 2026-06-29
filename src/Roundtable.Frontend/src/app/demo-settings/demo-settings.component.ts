@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DemoVersionSettingsService, type DemoSettingsDto } from '../demo-version-settings.service';
+import { resolveUnderAppBase } from '../core/app-base-url';
 
 @Component({
   selector: 'app-demo-settings',
@@ -437,7 +438,9 @@ export class DemoSettingsComponent implements OnInit {
     this.loadError.set(null);
     this.appDisplayName.set(d.appDisplayName);
     this.includingMinutes.set(d.includingMinutes);
-    this.team001CustomIconUrl.set(d.team001CustomIconUrl ?? null);
+    this.team001CustomIconUrl.set(
+      d.team001CustomIconUrl ? resolveUnderAppBase(d.team001CustomIconUrl) : null,
+    );
     this.orgNames.set([...d.organisationNames]);
     this.teams.set(d.teams.map((t) => ({ ...t })));
   }

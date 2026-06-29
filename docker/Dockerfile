@@ -1,11 +1,12 @@
 # Stage 1: build Angular frontend
 FROM node:22-alpine AS frontend-build
 ARG APP_VERSION=__DEPLOY_VERSION__
+ARG ROUTE_PREFIX=/
 WORKDIR /app
 COPY src/Roundtable.Frontend/package.json src/Roundtable.Frontend/package-lock.json ./
 RUN npm ci
 COPY src/Roundtable.Frontend/ ./
-RUN npm run build
+RUN npm run build -- --base-href="${ROUTE_PREFIX}"
 
 # Stage 2: publish ASP.NET API
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS backend-build

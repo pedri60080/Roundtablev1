@@ -61,7 +61,7 @@ public class DemoSettingsService : IDemoSettingsService
         return Task.FromResult(new DemoSettingsDto
         {
             AppDisplayName = string.IsNullOrWhiteSpace(file.AppDisplayName)
-                ? "Roundtable"
+                ? "Roundtable v1"
                 : file.AppDisplayName.Trim(),
             IncludingMinutes = file.IncludingMinutes ?? false,
             Team001CustomIconUrl = GetCustomTeamIconPublicUrl(Team001),
