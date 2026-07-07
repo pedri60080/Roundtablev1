@@ -6,6 +6,8 @@ import { MatCardModule } from '@angular/material/card';
 import type { Team } from '../teams';
 import { DemoVersionSettingsService } from '../demo-version-settings.service';
 import { resolveUnderAppBase } from '../core/app-base-url';
+import { DEPLOY_VERSION } from '../core/build-info/deploy-version';
+import { FormatDeployVersionPipe } from '../core/build-info/format-deploy-version.pipe';
 
 type Me = {
   guid: string;
@@ -22,9 +24,12 @@ type OrganisationDto = { id: number; name: string };
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatCardModule, RouterLink],
+  imports: [MatCardModule, RouterLink, FormatDeployVersionPipe],
   template: `
     <div class="home">
+      @if (deployVersion) {
+        <span class="home-release-label" aria-label="Release version">Release: {{ deployVersion | formatDeployVersion }}</span>
+      }
       <header class="brand">
         <span class="brand-icon material-symbols-outlined" aria-hidden="true">forum</span>
         <h1 class="brand-name">{{ demoSettings.appDisplayName() }}</h1>
@@ -199,6 +204,16 @@ type OrganisationDto = { id: number; name: string };
       margin: 0 auto;
       padding: 48px 24px;
       padding-bottom: 120px;
+    }
+    .home-release-label {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 60;
+      color: var(--m3-on-surface-variant);
+      font-size: 0.875rem;
+      font-weight: 500;
+      white-space: nowrap;
     }
     .home-bottom-bar {
       position: fixed;
@@ -506,6 +521,7 @@ export class HomeComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
   readonly demoSettings = inject(DemoVersionSettingsService);
+  protected readonly deployVersion = DEPLOY_VERSION.startsWith('__') ? null : DEPLOY_VERSION;
   readonly teams = signal<Team[]>([]);
   readonly myTeams = computed(() =>
     this.teams()

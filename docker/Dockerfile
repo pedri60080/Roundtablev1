@@ -6,6 +6,7 @@ WORKDIR /app
 COPY src/Roundtable.Frontend/package.json src/Roundtable.Frontend/package-lock.json ./
 RUN npm ci
 COPY src/Roundtable.Frontend/ ./
+RUN sed -i "s/__DEPLOY_VERSION__/${APP_VERSION}/g" src/app/core/build-info/deploy-version.ts
 RUN npm run build -- --base-href="${ROUTE_PREFIX}"
 
 # Stage 2: publish ASP.NET API
